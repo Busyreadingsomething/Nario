@@ -1,41 +1,52 @@
-import {resolve as _resolve} from 'path';
-import SpriteSheet from './SpriteSheet';
-import {loadImage, loadLevel} from './loaders';
-
-/**
- * Draws the background based on the given level background.
- * @param {Object} background information about the background
- * @param {Context} context Canvas context
- * @param {SpriteSheet} sprites Contains the sheet of sprites
- */
-function drawBackground(background, context, sprites) {
-  background.ranges.forEach(([x1, x2, y1, y2]) => {
-    for (let x = x1; x < x2; x += 1) {
-      for (let y = y1; y < y2; y += 1) {
-        sprites.drawTile(background.tile, context, x, y);
-      }
-    }
-  });
-}
+import Compositor from './Compositor';
+import {loadLevel} from './loaders';
+import {loadMarioSprite, loadBackgroundSprites} from './sprites';
+import {createBackgroundLayer} from './layers';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-loadImage(_resolve(__dirname, './img/tiles.png'))
-    .then((image) => {
-      const sprites = new SpriteSheet(image, 16, 16);
-      sprites.define('ground', 0, 0);
-      sprites.define('sky', 3, 23);
+/**
+ * Creates a sprite layer to be drawn later
+ * @param {SpriteSheet} sprite Sprite information
+ * @param {Vector} position Location of the sprite
+ * @return {drawSpriteLayer} function to draw sprite when called
+ */
+export function createSpriteLayer(sprite, position) {
+  return function drawSpriteLayer(context) {
+    for (let i = 0; i < 20; i += 1) {
+      sprite.draw('idle', context, position.x + i * 16, position.y);
+    }
+  };
+}
 
-      loadLevel('1-1')
-          .then((level) => {
-            level.backgrounds.forEach(
-                (background) => drawBackground(background, context, sprites));
-          });
+Promise.all([
+  loadMarioSprite(),
+  loadBackgroundSprites(),
+  loadLevel('1-1'),
+]).then(([marioSprite, backgroundSprites, level]) => {
+  const comp = new Compositor();
+  const backgroundLayer =
+    createBackgroundLayer(level.backgrounds, backgroundSprites);
+  comp.layers.push(backgroundLayer);
 
-      for (let x = 0; x < 25; x += 1) {
-        for (let y = 12; y < 14; y += 1) {
-          sprites.drawTile('ground', context, x, y);
-        }
-      }
-    });
+  const pos = {
+    x: 0,
+    y: 0,
+  };
+
+  const spriteLayer = createSpriteLayer(marioSprite, pos);
+  comp.layers.push(spriteLayer);
+
+  /**
+   * Animates Mario's position with built in
+   * {@link requestAnimationFrame}
+   */
+  function update() {
+    comp.draw(context);
+    pos.x += 2;
+    pos.y += 2;
+    requestAnimationFrame(update);
+  }
+  update();
+});
