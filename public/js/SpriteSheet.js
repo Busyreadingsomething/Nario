@@ -20,23 +20,35 @@ export default class SpriteSheet {
    * @param {String} name Name of the tile
    * @param {Number} x X position on png
    * @param {Number} y Y position on png
+   * @param {Number} width width of sprite
+   * @param {Number} height height of sprite
    */
-  define(name, x, y) {
+  define(name, x, y, width, height) {
     const buffer = document.createElement('canvas');
-    buffer.width = this.width;
-    buffer.height = this.height;
+    buffer.width = width;
+    buffer.height = height;
     buffer.getContext('2d')
         .drawImage(
             this.image,
-            x * this.width,
-            y * this.height,
-            this.width,
-            this.height,
+            x,
+            y,
+            width,
+            height,
             0,
             0,
-            this.width,
-            this.height);
+            width,
+            height);
     this.tiles.set(name, buffer);
+  }
+
+  /**
+   * Calls the {@link SpriteSheet.define} with proper sprite location
+   * @param {String} name Name of the sprite
+   * @param {Number} x Position on screen X
+   * @param {Number} y Position on screen Y
+   */
+  defineTile(name, x, y) {
+    this.define(name, x * this.width, y * this.height, this.width, this.height);
   }
 
   /**
