@@ -32,3 +32,14 @@ export function createBackgroundLayer(backgrounds, sprites) {
     context.drawImage(buffer, 0, 0);
   };
 }
+
+/**
+ * Creates a sprite layer to be drawn later
+ * @param {Entity} entity Sprite information
+ * @return {drawSpriteLayer} function to draw sprite when called
+ */
+export function createSpriteLayer(entity) {
+  return function drawSpriteLayer(context) {
+    entity.draw(context);
+  };
+}
