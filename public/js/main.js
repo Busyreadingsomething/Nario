@@ -1,52 +1,44 @@
 import Compositor from './Compositor';
+import Timer from './Timer';
 import {loadLevel} from './loaders';
-import {loadMarioSprite, loadBackgroundSprites} from './sprites';
-import {createBackgroundLayer} from './layers';
+import {createMario} from './entities';
+import {loadBackgroundSprites} from './sprites';
+import {createBackgroundLayer, createSpriteLayer} from './layers';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-/**
- * Creates a sprite layer to be drawn later
- * @param {SpriteSheet} sprite Sprite information
- * @param {Vector} position Location of the sprite
- * @return {drawSpriteLayer} function to draw sprite when called
- */
-export function createSpriteLayer(sprite, position) {
-  return function drawSpriteLayer(context) {
-    for (let i = 0; i < 20; i += 1) {
-      sprite.draw('idle', context, position.x + i * 16, position.y);
-    }
-  };
-}
-
 Promise.all([
-  loadMarioSprite(),
+  createMario(),
   loadBackgroundSprites(),
   loadLevel('1-1'),
-]).then(([marioSprite, backgroundSprites, level]) => {
+]).then(([mario, backgroundSprites, level]) => {
   const comp = new Compositor();
   const backgroundLayer =
     createBackgroundLayer(level.backgrounds, backgroundSprites);
   comp.layers.push(backgroundLayer);
 
-  const pos = {
-    x: 0,
-    y: 0,
-  };
+  const gravity = 30;
+  mario.pos.set(64, 180);
+  mario.vel.set(200, -600);
 
-  const spriteLayer = createSpriteLayer(marioSprite, pos);
+  const spriteLayer = createSpriteLayer(mario);
   comp.layers.push(spriteLayer);
 
+  const timer = new Timer(1/60);
+
   /**
-   * Animates Mario's position with built in
-   * {@link requestAnimationFrame}
+   * Updates Mario's position based on the time and velocity through
+   * {@link requestAnimationFrame}. The delta time sets the framerate,
+   * and the accumulated time makes sure that the speed of the calculation
+   * doesn't mess with the animation.
+   * @param {Number} deltaTime milliseconds of the call.
    */
-  function update() {
+  timer.update = function update(deltaTime) {
     comp.draw(context);
-    pos.x += 2;
-    pos.y += 2;
-    requestAnimationFrame(update);
-  }
-  update();
+    mario.update(deltaTime);
+    mario.vel.y += gravity;
+  };
+
+  timer.start();
 });
