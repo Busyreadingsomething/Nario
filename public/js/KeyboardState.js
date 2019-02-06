@@ -13,12 +13,12 @@ export default class KeyboardState {
   }
 
   /**
-   * Added mapping between keycode and callback for object.
-   * @param {Number} keycode Code of the key pressed
-   * @param {Function} callback Function to add to keycode
+   * Added mapping between code and callback for object.
+   * @param {Number} code Code of the key pressed
+   * @param {Function} callback Function to add to code
    */
-  addMapping(keycode, callback) {
-    this.keyMap.set(keycode, callback);
+  addMapping(code, callback) {
+    this.keyMap.set(code, callback);
   }
 
   /**
@@ -26,10 +26,10 @@ export default class KeyboardState {
    * @param {Event} event Event from the keyboard
    */
   handleEvent(event) {
-    const {keyCode} = event;
+    const {code} = event;
 
     // Did not have the key mapped.
-    if (!this.keyMap.has(keyCode)) {
+    if (!this.keyMap.has(code)) {
       return;
     }
 
@@ -37,13 +37,13 @@ export default class KeyboardState {
 
     const keyState = event.type === 'keydown' ? PRESSED : RELEASED;
 
-    if (this.keyStates.get(keyCode) === keyState) {
+    if (this.keyStates.get(code) === keyState) {
       return;
     }
 
-    this.keyStates.set(keyCode, keyState);
+    this.keyStates.set(code, keyState);
     console.log(this.keyStates);
-    this.keyMap.get(keyCode)(keyState);
+    this.keyMap.get(code)(keyState);
   }
 
   /**
