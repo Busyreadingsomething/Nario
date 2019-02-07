@@ -12,8 +12,9 @@ export default class Compositor {
   /**
    * Invokes each layer function with the context in the layers
    * @param {Context} context Context of the canvas
+   * @param {Camera} camera The camera of the game.
    */
-  draw(context) {
-    this.layers.forEach((layer) => layer(context));
+  draw(context, camera) {
+    this.layers.forEach((layer) => layer(context, camera));
   }
 }
