@@ -14,17 +14,3 @@ export function loadMarioSprite() {
         return sprites;
       });
 }
-
-/**
- * Loads the background Sprites.
- * @return {Promise<SpriteSheet>} Tiles spritesheet is returned.
- */
-export function loadBackgroundSprites() {
-  return loadImage(_resolve(__dirname, './img/tiles.png'))
-      .then((image) => {
-        const sprites = new SpriteSheet(image, 16, 16);
-        sprites.defineTile('ground', 0, 0);
-        sprites.defineTile('sky', 3, 23);
-        return sprites;
-      });
-}
