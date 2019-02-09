@@ -3,12 +3,9 @@ const RELEASED = 0;
 
 /** KeyBoard  */
 export default class KeyboardState {
-  /**   */
+  /** Holds state of keys and maps the functinos to the code. */
   constructor() {
-    // Holds the current state of the keys
     this.keyStates = new Map();
-
-    // Holds the callback functions for a key code
     this.keyMap = new Map();
   }
 
@@ -42,7 +39,6 @@ export default class KeyboardState {
     }
 
     this.keyStates.set(code, keyState);
-    console.log(this.keyStates);
     this.keyMap.get(code)(keyState);
   }
 

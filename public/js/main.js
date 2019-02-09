@@ -2,7 +2,7 @@ import Timer from './Timer';
 import Camera from './Camera';
 import {loadLevel} from './loaders';
 import {createMario} from './entities';
-import {createCollisionLayer, createCameraLayer} from './layers';
+// import {createCollisionLayer, createCameraLayer} from './layers';
 import {setUpKeyBoard} from './input';
 import {setUpMouseControls} from './debug';
 
@@ -17,9 +17,9 @@ Promise.all([
 
   mario.pos.set(64, 64);
 
-  level.comp.layers.push(
-      createCollisionLayer(level),
-      createCameraLayer(camera));
+  // level.comp.layers.push(
+  //     createCollisionLayer(level),
+  //     createCameraLayer(camera));
 
   level.entities.add(mario);
 
