@@ -1,6 +1,7 @@
 import Level from './Level';
 import SpriteSheet from './SpriteSheet';
 import {createBackgroundLayer, createSpriteLayer} from './layers';
+import {createAnim} from './anim';
 
 /**
  * Loads the image of the on the load event
@@ -70,7 +71,7 @@ function createTiles(level, backgrounds) {
  * @param {String} name of sheet.
  * @return {JSON} Sheet information.
  */
-function loadSpriteSheet(name) {
+export function loadSpriteSheet(name) {
   return loadJSON(`/sprites/${name}.json`)
       .then((sheetSpec) => Promise.all([
         sheetSpec,
@@ -80,10 +81,26 @@ function loadSpriteSheet(name) {
         const sprites = new SpriteSheet(
             image, sheetSpec.tileW, sheetSpec.tileH);
 
-        sheetSpec.tiles.forEach((tileSpec) => {
-          sprites.defineTile(
-              tileSpec.name, tileSpec.index[0], tileSpec.index[1]);
-        });
+        if (sheetSpec.tiles) {
+          sheetSpec.tiles.forEach((tileSpec) => {
+            sprites.defineTile(
+                tileSpec.name, ...tileSpec.index);
+          });
+        }
+
+        if (sheetSpec.frames) {
+          sheetSpec.frames.forEach((frameSpec) => {
+            sprites.define(frameSpec.name, ...frameSpec.rect);
+          });
+        }
+
+        if (sheetSpec.animations) {
+          sheetSpec.animations.forEach((animSpec) => {
+            const animation = createAnim(animSpec.frames, animSpec.frameLen);
+            sprites.defineAnim(animSpec.name, animation);
+          });
+        }
+
         return sprites;
       });
 }
