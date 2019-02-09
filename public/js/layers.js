@@ -23,7 +23,7 @@ export function createBackgroundLayer(level, sprites) {
    * @param {Number} drawTo ending position
    */
   function redraw(drawFrom, drawTo) {
-    if (drawFrom === startIndex && drawTo === endIndex) return;
+    // if (drawFrom === startIndex && drawTo === endIndex) return;
 
     startIndex = drawFrom;
     endIndex = drawTo;
@@ -31,8 +31,14 @@ export function createBackgroundLayer(level, sprites) {
     for (let x = startIndex; x <= endIndex; x += 1) {
       const col = tiles.grid[x];
       if (col) {
-        col.forEach((tile, y) =>
-          sprites.drawTile(tile.name, context, x - startIndex, y));
+        col.forEach((tile, y) => {
+          if (sprites.animations.has(tile.name)) {
+            sprites.drawAnim(
+                tile.name, context, x - startIndex, y, level.totalTime);
+          } else {
+            sprites.drawTile(tile.name, context, x - startIndex, y);
+          }
+        });
       }
     }
   }
