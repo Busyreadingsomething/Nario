@@ -1,5 +1,10 @@
 import {Vec2} from './math';
 
+export const Sides = {
+  TOP: Symbol('top'),
+  BOTTOM: Symbol('bottom'),
+};
+
 /** Trait base calss */
 export class Trait {
   /**
@@ -9,6 +14,9 @@ export class Trait {
   constructor(name) {
     this.name = name;
   }
+
+  /** Base obstruct method. */
+  obstruct() {}
 
   /** Base update method. */
   update() {
@@ -35,6 +43,13 @@ export default class Entity {
     this[trait.name] = trait;
   }
 
+  /**
+   * Passes the side to the traits' obstruct method.
+   * @param {String} side location of obstruction
+   */
+  obstruct(side) {
+    this.traits.forEach((trait) => trait.obstruct(this, side));
+  }
   /**
    * Updates all traits with the time.
    * @param {Number} deltaTime Time to pass for update
