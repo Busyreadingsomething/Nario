@@ -1,6 +1,6 @@
 import Timer from './Timer';
 import Camera from './Camera';
-import {loadLevel} from './loaders';
+import {loadLevel} from './loaders/level';
 import {createMario} from './entities';
 import {setUpKeyBoard} from './input';
 
