@@ -1,6 +1,5 @@
 import Compositor from './Compositor';
 import TileCollider from './TileCollider';
-import {Matrix} from './math';
 
 /** Class to set up the level composition and entitites. */
 export default class Level {
@@ -10,8 +9,15 @@ export default class Level {
     this.totalTime = 0;
     this.comp = new Compositor();
     this.entities = new Set();
-    this.tiles = new Matrix();
-    this.tileCollider = new TileCollider(this.tiles);
+    this.tileCollider = null;
+  }
+
+  /**
+   * Sets the tileCollider with a given matrix.
+   * @param {Matrix} matrix
+   */
+  setCollisionGrid(matrix) {
+    this.tileCollider = new TileCollider(matrix);
   }
 
   /**
