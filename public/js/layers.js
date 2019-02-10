@@ -1,32 +1,27 @@
+import TileResolver from './TileResolver';
+
 /**
  * Creates the layer that will be drawn when called.
- * @param {Level} level Level object
- * @param {SpriteSheet} sprites Sprites to be passed into each background
- * @return {drawBackgroundLayer} Function to be called to draw the later
+ * @param {Level} level
+ * @param {Matrix} tiles
+ * @param {SpriteSheet} sprites
+ * @return {Function} Function to draw the layer
  */
-export function createBackgroundLayer(level, sprites) {
-  const {tiles} = level;
-  const resolver = level.tileCollider.tiles;
+export function createBackgroundLayer(level, tiles, sprites) {
+  const resolver = new TileResolver(tiles);
 
   const buffer = document.createElement('canvas');
   buffer.width = 256 + 16;
   buffer.height = 240;
 
   const context = buffer.getContext('2d');
-
-  let startIndex;
-  let endIndex;
-
   /**
    * Redraws what we need on the level.
-   * @param {Number} drawFrom starting pposition
-   * @param {Number} drawTo ending position
+   * @param {Number} startIndex
+   * @param {Number} endIndex
    */
-  function redraw(drawFrom, drawTo) {
-    // if (drawFrom === startIndex && drawTo === endIndex) return;
-
-    startIndex = drawFrom;
-    endIndex = drawTo;
+  function redraw(startIndex, endIndex) {
+    context.clearRect(0, 0, buffer.width, buffer.height);
 
     for (let x = startIndex; x <= endIndex; x += 1) {
       const col = tiles.grid[x];
