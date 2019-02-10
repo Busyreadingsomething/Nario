@@ -6,7 +6,7 @@ import {Matrix} from './math';
 export default class Level {
   /** State has the compositor and a set of entities */
   constructor() {
-    this.gravity = 2000;
+    this.gravity = 1500;
     this.totalTime = 0;
     this.comp = new Compositor();
     this.entities = new Set();
