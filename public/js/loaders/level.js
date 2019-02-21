@@ -108,7 +108,6 @@ function expandRange(range) {
  * @yield {Object} coordinate of tile
  */
 function* expandRanges(ranges) {
-  console.log(ranges);
   for (const range of ranges) {
     for (const item of expandRange(range)) {
       yield item;
