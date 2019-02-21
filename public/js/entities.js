@@ -1,55 +1,26 @@
-import Entity from './Entity';
-import Go from './traits/Go';
-import Jump from './traits/Jump';
-import {loadSpriteSheet} from './loaders';
-import {createAnim} from './anim';
-
-const SLOW_DRAG = 1/2000;
-const FAST_DRAG = 1/5000;
+import {loadMario} from './entities/Mario';
+import {loadGoomba} from './entities/Goomba';
+import {loadKoopa} from './entities/Koopa';
 
 /**
- * Creates the mario entity with the draw and update methods.
- * @return {Promise<Entity>} mario entity
+ * Loads all the entities.
+ * @return {Promise<Object<String, Function>>} Promise of all factories.
  */
-export function createMario() {
-  return loadSpriteSheet('mario').then((sprite) => {
-    const mario = new Entity();
-    mario.size.set(14, 16);
+export function loadEntities() {
+  const entityFactories = {};
 
-    mario.addTrait(new Go());
-    mario.addTrait(new Jump());
+  /**
+   * Adds factory method to the entityFactories.
+   * @param {String} name Entity name.
+   * @return {Function} Updates entity factories with factory method.
+   */
+  function addAs(name) {
+    return (factory) => entityFactories[name] = factory;
+  }
 
-    mario.go.dragFactor = SLOW_DRAG;
-
-    mario.turbo = function setTurboState(turboOn) {
-      this.go.dragFactor = turboOn ? FAST_DRAG : SLOW_DRAG;
-    };
-
-    const runAnim = createAnim(['run-1', 'run-2', 'run-3'], 6);
-    /**
-     * Determines the frame for mario.
-     * @param {Entity} mario Mario's sprite entity
-     * @return {String} frame type
-     */
-    function routeFrame(mario) {
-      if (mario.jump.falling) {
-        return 'jump';
-      }
-
-      if (mario.go.distance > 0) {
-        if ((mario.vel.x > 0 && mario.go.dir < 0)
-          || (mario.vel.x < 0 && mario.go.dir > 0)) {
-          return 'break';
-        }
-        return runAnim(mario.go.distance);
-      }
-      return 'idle';
-    }
-
-    mario.draw = function drawMario(context) {
-      sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0);
-    };
-
-    return mario;
-  });
+  return Promise.all([
+    loadMario().then(addAs('mario')),
+    loadGoomba().then(addAs('goomba')),
+    loadKoopa().then(addAs('koopa')),
+  ]).then(() => entityFactories);
 }
