@@ -18,18 +18,24 @@ export class Trait {
     this.name = name;
   }
 
+  /**
+   * Base collides method.
+   * @param {Entity} us
+   * @param {Entity} them
+   */
+  collides(us, them) {}
+
   /** Base obstruct method. */
   obstruct() {}
 
   /** Base update method. */
-  update() {
-    console.warn('Unhandled update call in Trait');
-  }
+  update() {}
 }
 /** Sets the sprite entity. */
 export default class Entity {
   /** Sets the position and velocity. */
   constructor() {
+    this.canCollide = true;
     this.pos = new Vec2(0, 0);
     this.vel = new Vec2(0, 0);
     this.size = new Vec2(0, 0);
@@ -50,17 +56,30 @@ export default class Entity {
 
   /**
    * Passes the side to the traits' obstruct method.
+   * @param {Entity} candidate location of obstruction
+   */
+  collides(candidate) {
+    this.traits.forEach((trait) => trait.collides(this, candidate));
+  }
+
+  /**
+   * Passes the side to the traits' obstruct method.
    * @param {String} side location of obstruction
    */
   obstruct(side) {
     this.traits.forEach((trait) => trait.obstruct(this, side));
   }
+
+  /** Empty draw function. */
+  draw() {}
+
   /**
    * Updates all traits with the time.
    * @param {Number} deltaTime Time to pass for update
+   * @param {Level} level
    */
-  update(deltaTime) {
-    this.traits.forEach((trait) => trait.update(this, deltaTime));
+  update(deltaTime, level) {
+    this.traits.forEach((trait) => trait.update(this, deltaTime, level));
     this.lifetime += deltaTime;
   }
 }
