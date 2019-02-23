@@ -1,10 +1,6 @@
-/**
- * Draws the layers for each level
- */
+/** Draws the layers for each level. */
 export default class Compositor {
-  /**
-   * Creates the object with an empty array for layers.
-   */
+  /** Creates the object with an empty array for layers. */
   constructor() {
     this.layers = [];
   }
