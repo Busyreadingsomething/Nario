@@ -1,9 +1,25 @@
-import Timer from './Timer';
 import Camera from './Camera';
+import Entity from './Entity';
+import PlayerController from './traits/PlayerController';
+import Timer from './Timer';
 import {createLevelLoader} from './loaders/level';
 import {loadEntities} from './entities';
 import {setUpKeyBoard} from './input';
 import {createCollisionLayer} from './layers';
+
+/**
+ * Creates player environment.
+ * @param {Entity} playerEntity
+ * @return {Entity} player environment.
+ */
+function createPlayerEnv(playerEntity) {
+  const playerEnv = new Entity();
+  const playerControl = new PlayerController();
+  playerControl.checkpoint.set(64, 64);
+  playerControl.setPlayer(playerEntity);
+  playerEnv.addTrait(playerControl);
+  return playerEnv;
+}
 
 /**
  * Function to load the game.
@@ -20,9 +36,9 @@ async function main(canvas) {
   const camera = new Camera();
 
   const mario = entityFactory.mario();
-  mario.pos.set(64, 64);
 
-  level.entities.add(mario);
+  const playerEnv = createPlayerEnv(mario);
+  level.entities.add(playerEnv);
 
   level.comp.layers.push(createCollisionLayer(level));
 
@@ -42,7 +58,7 @@ async function main(canvas) {
     level.update(deltaTime);
 
     if (mario.pos.x > 100) {
-      camera.pos.x = mario.pos.x - 100;
+      camera.pos.x = Math.max(0, mario.pos.x - 100);
     }
 
     level.comp.draw(context, camera);
