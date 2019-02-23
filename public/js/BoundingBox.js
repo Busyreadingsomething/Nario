@@ -62,4 +62,16 @@ export default class BoundingBox {
   set right(x) {
     return this.pos.x = x - (this.size.x + this.offset.x);
   }
+
+  /**
+   * Checks if there is an overlap.
+   * @param {BoundingBox} box
+   * @return {boolean}
+   */
+  overlaps(box) {
+    return (this.bottom > box.top
+      && this.top < box.bottom
+      && this.left < box.right
+      && this.right > box.left);
+  }
 }
