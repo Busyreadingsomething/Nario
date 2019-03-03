@@ -36,7 +36,8 @@ class Behavior extends Trait {
         this.handleNudge(us, them);
       }
     } else {
-      us.pendulumMove.speed *= -1;
+      // us.pendulumMove.speed *= -1;
+      // them.pendulumMove.speed *= 1;
     }
   }
 
@@ -92,7 +93,6 @@ class Behavior extends Trait {
    * @param {Entity} us
    */
   unhide(us) {
-    debugger;
     us.pendulumMove.enabled = true;
     us.pendulumMove.speed = this.walkSpeed;
     this.state = STATE_WALKING;

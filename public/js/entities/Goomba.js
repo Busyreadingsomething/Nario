@@ -27,6 +27,7 @@ class Behavior extends Trait {
       }
     } else {
       us.pendulumMove.speed *= -1;
+      them.pendulumMove.speed *= -1;
     }
   }
 }

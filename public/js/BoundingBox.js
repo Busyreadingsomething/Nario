@@ -9,6 +9,7 @@ export default class BoundingBox {
     this.pos = pos;
     this.size = size;
     this.offset = offset;
+    this.spacing = 1;
   }
 
   /** Gets bottom position. */
@@ -69,9 +70,9 @@ export default class BoundingBox {
    * @return {boolean}
    */
   overlaps(box) {
-    return (this.bottom > box.top
-      && this.top < box.bottom
-      && this.left < box.right
-      && this.right > box.left);
+    return (this.bottom + this.spacing >= box.top
+      && this.top - this.spacing <= box.bottom
+      && this.left + this.spacing <= box.right
+      && this.right + this.spacing >= box.left);
   }
 }
