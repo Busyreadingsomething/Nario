@@ -4,11 +4,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>MARIO</title>
+  <style>
+    body {
+      background: #000;
+      margin: 0;
+    }
+
+    #screen {
+      display: block;
+      image-rendering: pixelated;
+      height: 80vh;
+      margin: auto;
+    }
+  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <h1>SUPER MARIO BROS</h1>
-  <canvas id="screen" width="640" height="640"></canvas>
+  <canvas id="screen" width="256" height="240"></canvas>
   <script type="text/javascript" src="./dist/build.js"></script>
 </body>
 </html>
