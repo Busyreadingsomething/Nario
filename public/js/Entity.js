@@ -16,6 +16,21 @@ export class Trait {
    */
   constructor(name) {
     this.name = name;
+    this.tasks = [];
+  }
+
+  /** Runs all the tasks. */
+  finalize() {
+    this.tasks.forEach((task) => task());
+    this.tasks.length = 0;
+  }
+
+  /**
+   * Pushes task into the stack.
+   * @param {Function} task
+   */
+  queue(task) {
+    this.tasks.push(task);
   }
 
   /**
@@ -66,12 +81,17 @@ export default class Entity {
    * Passes the side to the traits' obstruct method.
    * @param {String} side location of obstruction
    */
-  obstruct(side) {
-    this.traits.forEach((trait) => trait.obstruct(this, side));
+  obstruct(side, match) {
+    this.traits.forEach((trait) => trait.obstruct(this, side, match));
   }
 
   /** Empty draw function. */
   draw() {}
+
+  /** Runs finalize for all traits. */
+  finalize() {
+    this.traits.forEach((trait) => trait.finalize());
+  }
 
   /**
    * Updates all traits with the time.
