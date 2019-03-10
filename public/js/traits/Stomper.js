@@ -24,7 +24,9 @@ export default class Stomper extends Trait {
    * @param {Entity} them
    */
   collides(us, them) {
-    if (them.killable && us.vel.y > them.vel.y) {
+    if (!them.killable || them.killable.dead) return;
+
+    if (us.vel.y > them.vel.y) {
       this.bounce(us, them);
     }
   }
