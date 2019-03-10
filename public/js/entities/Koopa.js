@@ -2,6 +2,8 @@ import Entity, {Trait} from '../Entity';
 import PendulumMove from '../traits/PendulumMove';
 import {loadSpriteSheet} from '../loaders';
 import Killable from '../traits/Killable';
+import Solid from '../traits/Solid';
+import Physics from '../traits/Physics';
 
 const STATE_WALKING = Symbol('walking');
 const STATE_HIDING = Symbol('hiding');
@@ -71,7 +73,7 @@ class Behavior extends Trait {
     } else if (this.state === STATE_HIDING) {
       us.killable.kill();
       us.vel.set(100, -200);
-      us.canCollide = false;
+      us.solid.obstructs = false;
     } else if (this.state === STATE_PANIC) {
       this.hide(us);
     }
@@ -169,6 +171,8 @@ function createKoopaFactory(sprite) {
     koopa.size.set(16, 16);
     koopa.offset.y = 8;
 
+    koopa.addTrait(new Physics());
+    koopa.addTrait(new Solid());
     koopa.addTrait(new PendulumMove());
     koopa.addTrait(new Behavior());
     koopa.addTrait(new Killable());

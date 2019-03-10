@@ -2,6 +2,8 @@ import Entity, {Trait} from '../Entity';
 import Killable from '../traits/Killable';
 import PendulumMove from '../traits/PendulumMove';
 import {loadSpriteSheet} from '../loaders';
+import Solid from '../traits/Solid';
+import Physics from '../traits/Physics';
 
 /** Goomba Behavior class. */
 class Behavior extends Trait {
@@ -71,6 +73,8 @@ function createGoombaFactory(sprite) {
     const goomba = new Entity();
     goomba.size.set(16, 16);
 
+    goomba.addTrait(new Physics());
+    goomba.addTrait(new Solid());
     goomba.addTrait(new PendulumMove());
     goomba.addTrait(new Behavior());
     goomba.addTrait(new Killable());
