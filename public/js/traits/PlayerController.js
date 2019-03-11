@@ -38,5 +38,13 @@ export default class PlayerController extends Trait {
     } else {
       this.time -= deltaTime * 2;
     }
+    if (Math.ceil(this.time) === 100) {
+      level.backgroundMusic.pause();
+      level.warningSound.play();
+    }
+    if (Math.ceil(this.time) === 0) {
+      this.player.killable.kill();
+      this.time = 20;
+    }
   }
 }
