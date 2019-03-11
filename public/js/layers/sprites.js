@@ -1,0 +1,26 @@
+/**
+ * Creates a sprite layer to be drawn later
+ * @param {Set<Entity>} entities Sprite information
+ * @param {Number} width Width of sprite
+ * @param {Number} height Height of sprite
+ * @return {drawSpriteLayer} function to draw sprite when called
+ */
+export function createSpriteLayer(entities, width = 64, height = 64) {
+  const spriteBuffer = document.createElement('canvas');
+  spriteBuffer.width = width;
+  spriteBuffer.height = height;
+
+  const spriteBufferContext = spriteBuffer.getContext('2d');
+
+  return function drawSpriteLayer(context, camera) {
+    entities.forEach((entity) => {
+      spriteBufferContext.clearRect(0, 0, width, height);
+
+      entity.draw(spriteBufferContext);
+      context.drawImage(
+          spriteBuffer,
+          entity.pos.x - camera.pos.x,
+          entity.pos.y - camera.pos.y);
+    });
+  };
+}
