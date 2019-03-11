@@ -1,5 +1,6 @@
 {
     "spriteSheet": "overworld",
+    "backgroundMusic": "overworld.mp3",
     "layers": [
         {
             "tiles": [
