@@ -80,6 +80,7 @@ export default class Entity {
   /**
    * Passes the side to the traits' obstruct method.
    * @param {String} side location of obstruction
+   * @param {Tile} match
    */
   obstruct(side, match) {
     this.traits.forEach((trait) => trait.obstruct(this, side, match));

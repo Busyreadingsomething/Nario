@@ -66,6 +66,8 @@ async function main(canvas) {
 
     level.comp.draw(context, camera);
   };
+
+  level.backgroundMusic.play();
   timer.start();
 }
 
