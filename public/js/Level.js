@@ -12,6 +12,8 @@ export default class Level {
     this.entities = new Set();
     this.entityCollider = new EntityCollider(this.entities);
     this.tileCollider = null;
+    this.backgroundMusic = null;
+    this.warningSound = null;
   }
 
   /**
