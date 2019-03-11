@@ -1,6 +1,7 @@
 import {Matrix} from '../math';
 import Level from '../Level';
-import {createBackgroundLayer, createSpriteLayer} from '../layers';
+import {createSpriteLayer} from '../layers/sprites';
+import {createBackgroundLayer} from '../layers/background';
 import {loadJSON, loadSpriteSheet} from '../loaders';
 
 /**
