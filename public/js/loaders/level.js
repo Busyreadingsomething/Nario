@@ -3,6 +3,7 @@ import Level from '../Level';
 import {createSpriteLayer} from '../layers/sprites';
 import {createBackgroundLayer} from '../layers/background';
 import {loadJSON, loadSpriteSheet} from '../loaders';
+import Sound from '../sounds/Sound';
 
 /**
  * Sets up the collision for the level.
@@ -53,6 +54,23 @@ function setupEntities(levelSpec, level, entityFactory) {
 }
 
 /**
+ * Sets up the backgound music.
+ * @param {Object} levelSpec
+ * @param {Level} level
+ */
+function setupBackgroundMusic({backgroundMusic}, level) {
+  if (backgroundMusic) {
+    level.backgroundMusic = new Sound(`../../sounds/${backgroundMusic}`, true);
+    level.warningSound = new Sound('../../sounds/warning.wav');
+    level.warningSound.sound.onended = () => {
+      level.backgroundMusic.sound.currentTime = 0;
+      level.backgroundMusic.sound.playbackRate = 1.45;
+      level.backgroundMusic.play();
+    };
+  }
+}
+
+/**
  * @param {Object<String, Function>} entityFactory
  * @return {Function} load level funcftion
  */
@@ -68,6 +86,7 @@ export function createLevelLoader(entityFactory) {
           setupCollision(levelSpec, level);
           setupBackgrounds(levelSpec, level, backgroundSprites);
           setupEntities(levelSpec, level, entityFactory);
+          setupBackgroundMusic(levelSpec, level);
 
           return level;
         });
