@@ -2,12 +2,16 @@ import {Trait} from '../Entity';
 
 /** Killable class for entities. */
 export default class Killable extends Trait {
-  /** Sets the name. */
-  constructor() {
+  /**
+   * Sets the kill stats of the entity.
+   *
+   * @param {Number} removeAfter
+   */
+  constructor(removeAfter = 2) {
     super('killable');
     this.dead = false;
     this.deadTime = 0;
-    this.removeAfter = 2;
+    this.removeAfter = removeAfter;
   }
 
   /** Kills the entity. */
