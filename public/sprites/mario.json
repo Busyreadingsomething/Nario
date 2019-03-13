@@ -1,5 +1,6 @@
 {
   "imageURL": "/img/characters.gif",
+  "type": "player",
   "frames": [
     {
       "name": "idle",

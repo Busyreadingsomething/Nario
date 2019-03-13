@@ -1,5 +1,6 @@
 {
   "imageURL": "/img/characters.gif",
+  "type": "koopa",
   "frames": [
     {
       "name": "walk-1",
