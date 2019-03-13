@@ -39,7 +39,7 @@ class Font {
 export function loadFont() {
   return loadImage('./img/font.png')
       .then((image) => {
-        const fontSprite = new SpriteSheet(image);
+        const fontSprite = new SpriteSheet('font', image);
 
         const SIZE = 8;
         const ROW_LEN = image.width;

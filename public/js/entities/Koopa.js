@@ -31,7 +31,6 @@ class Behavior extends Trait {
     if (us.killable.dead) return;
 
     if (them.stomper) {
-      console.log(us);
       if (them.vel.y > us.vel.y) {
         this.handleStomp(us, them);
       } else {
@@ -39,7 +38,6 @@ class Behavior extends Trait {
       }
     } else {
       // us.pendulumMove.speed *= -1;
-      // them.pendulumMove.speed *= 1;
     }
   }
 
@@ -167,7 +165,7 @@ function createKoopaFactory(sprite) {
   };
 
   return function createKoopa() {
-    const koopa = new Entity();
+    const koopa = new Entity(sprite.type);
     koopa.size.set(16, 16);
     koopa.offset.y = 8;
 

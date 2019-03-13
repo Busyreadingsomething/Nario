@@ -13,13 +13,19 @@ export default class Sound {
     document.body.appendChild(this.sound);
   }
 
-  /** Plays the sound. */
+  /**
+   * Plays the sound.
+   * @return {Promise}
+   */
   play() {
-    this.sound.play();
+    return this.sound.play();
   }
 
-  /** Pauses the sound. */
+  /**
+   * Pauses the sound.
+   * @return {Promise}
+   */
   pause() {
-    this.sound.pause();
+    return this.sound.pause();
   }
 }
