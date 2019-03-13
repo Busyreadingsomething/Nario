@@ -1,14 +1,14 @@
-/**
- * Class to contain the sprite tiles and referenve the screen size
- */
+/** Class to contain the sprite tiles and referenve the screen size. */
 export default class SpriteSheet {
   /**
-   * Sets the state of the class
+   * Sets the state of the class.
+   * @param {String} type - sprite type
    * @param {Image} image Tile image
    * @param {Number} width Screen width
    * @param {Number} height Screen height
    */
-  constructor(image, width, height) {
+  constructor(type, image, width, height) {
+    this.type = type;
     this.image = image;
     this.width = width;
     this.height = height;
@@ -56,7 +56,6 @@ export default class SpriteSheet {
           0,
           width,
           height);
-
       return buffer;
     });
 

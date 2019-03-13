@@ -48,8 +48,12 @@ export class Trait {
 }
 /** Sets the sprite entity. */
 export default class Entity {
-  /** Sets the position and velocity. */
-  constructor() {
+  /**
+   * Sets the position and velocity.
+   * @param {String} type
+   */
+  constructor(type) {
+    this.type = type;
     this.canCollide = true;
     this.pos = new Vec2(0, 0);
     this.vel = new Vec2(0, 0);
