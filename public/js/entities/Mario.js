@@ -55,9 +55,15 @@ function createMarioFactory(sprite) {
 
   /**
    * @param {Canvas} context
+   * @param {Number} x
+   * @param {Number} y
    */
-  function drawMario(context) {
-    sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0); // eslint-disable-line
+  function drawMario(context, x, y) {
+    if (x !== undefined && y !== undefined) {
+      sprite.draw(routeFrame(this), context, x, y, this.go.heading < 0); // eslint-disable-line  
+    } else {
+      sprite.draw(routeFrame(this), context, 0, 0, this.go.heading < 0); // eslint-disable-line
+    }
   };
 
   return function createMario() {
