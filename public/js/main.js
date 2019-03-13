@@ -46,6 +46,7 @@ async function main(canvas) {
   const playerEnv = createPlayerEnv(mario, level);
   const dashboard = createDashboardLayer(font, playerEnv);
 
+  level.controller = playerEnv.playerController;
   level.entities.add(playerEnv);
 
   level.comp.layers.push(createCollisionLayer(level));
@@ -72,8 +73,9 @@ async function main(canvas) {
   };
 
   createPreScreen(context, font, dashboard, playerEnv, () => {
-    level.backgroundMusic.play();
-    timer.start();
+    level.backgroundMusic.play()
+        .then(() => timer.start())
+        .catch((e) => console.log(e));
   });
 }
 
