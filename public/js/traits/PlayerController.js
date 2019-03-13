@@ -3,13 +3,17 @@ import {Vec2} from '../math';
 
 /** Killable class for entities. */
 export default class PlayerController extends Trait {
-  /** Sets the name. */
-  constructor() {
+  /**
+   * Sets the player environment.
+   * @param {Number} time
+   */
+  constructor(time) {
     super('playerController');
     this.checkpoint = new Vec2(0, 0);
     this.player = null;
-    this.time = 300;
+    this.time = time;
     this.score = 0;
+    this.lives = 3;
   }
 
   /**
@@ -44,7 +48,9 @@ export default class PlayerController extends Trait {
     }
     if (Math.ceil(this.time) === 0) {
       this.player.killable.kill();
-      this.time = 20;
+      level.backgroundMusic.sound.currentTime = 0;
+      level.backgroundMusic.sound.playbackRate = 1;
+      this.time = 300;
     }
   }
 }
