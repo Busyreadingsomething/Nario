@@ -1,6 +1,7 @@
 import {loadMario} from './entities/Mario';
 import {loadGoomba} from './entities/Goomba';
 import {loadKoopa} from './entities/Koopa';
+import {loadCoin} from './entities/coin';
 
 /**
  * Loads all the entities.
@@ -22,5 +23,6 @@ export function loadEntities() {
     loadMario().then(addAs('mario')),
     loadGoomba().then(addAs('goomba')),
     loadKoopa().then(addAs('koopa')),
+    loadCoin().then(addAs('coin')),
   ]).then(() => entityFactories);
 }
