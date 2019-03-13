@@ -8,15 +8,17 @@ import {loadEntities} from './entities';
 import {setUpKeyBoard} from './input';
 import {createCollisionLayer} from './layers/collision';
 import {createDashboardLayer} from './layers/dashboard';
+import {createPreScreen} from './layers/preScreen';
 
 /**
  * Creates player environment.
  * @param {Entity} playerEntity
+ * @param {Level} level
  * @return {Entity} player environment.
  */
-function createPlayerEnv(playerEntity) {
+function createPlayerEnv(playerEntity, level) {
   const playerEnv = new Entity();
-  const playerControl = new PlayerController();
+  const playerControl = new PlayerController(level.timer);
   playerControl.checkpoint.set(64, 64);
   playerControl.setPlayer(playerEntity);
   playerEnv.addTrait(playerControl);
@@ -37,16 +39,18 @@ async function main(canvas) {
   const loadLevel = await createLevelLoader(entityFactory);
 
   const level = await loadLevel('1-1');
-
   const camera = new Camera();
 
   const mario = entityFactory.mario();
 
-  const playerEnv = createPlayerEnv(mario);
+  const playerEnv = createPlayerEnv(mario, level);
+  const dashboard = createDashboardLayer(font, playerEnv);
+
   level.entities.add(playerEnv);
 
   level.comp.layers.push(createCollisionLayer(level));
-  level.comp.layers.push(createDashboardLayer(font, playerEnv));
+  level.comp.layers.push(dashboard);
+
   const input = setUpKeyBoard(mario);
   input.listenTo(window);
 
@@ -67,8 +71,10 @@ async function main(canvas) {
     level.comp.draw(context, camera);
   };
 
-  level.backgroundMusic.play();
-  timer.start();
+  createPreScreen(context, font, dashboard, playerEnv, () => {
+    level.backgroundMusic.play();
+    timer.start();
+  });
 }
 
 const canvas = document.getElementById('screen');
