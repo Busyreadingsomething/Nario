@@ -4,9 +4,14 @@ import TileCollider from './TileCollider';
 
 /** Class to set up the level composition and entitites. */
 export default class Level {
-  /** State has the compositor and a set of entities */
-  constructor() {
-    this.gravity = 1500;
+  /**
+   * State has the compositor and a set of entities.
+   *
+   * @param {JSON} levelSpec
+   */
+  constructor({gravity, timer}) {
+    this.gravity = gravity;
+    this.timer = timer;
     this.totalTime = 0;
     this.comp = new Compositor();
     this.entities = new Set();

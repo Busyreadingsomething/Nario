@@ -64,7 +64,7 @@ function setupBackgroundMusic({backgroundMusic}, level) {
     level.warningSound = new Sound('../../sounds/warning.wav');
     level.warningSound.sound.onended = () => {
       level.backgroundMusic.sound.currentTime = 0;
-      level.backgroundMusic.sound.playbackRate = 1.45;
+      level.backgroundMusic.sound.playbackRate = 1.4;
       level.backgroundMusic.play();
     };
   }
@@ -81,7 +81,7 @@ export function createLevelLoader(entityFactory) {
           levelSpec,
           loadSpriteSheet(levelSpec.spriteSheet),
         ])).then(([levelSpec, backgroundSprites]) => {
-          const level = new Level();
+          const level = new Level(levelSpec);
 
           setupCollision(levelSpec, level);
           setupBackgrounds(levelSpec, level, backgroundSprites);
