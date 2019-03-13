@@ -4,6 +4,7 @@ import PendulumMove from '../traits/PendulumMove';
 import {loadSpriteSheet} from '../loaders';
 import Solid from '../traits/Solid';
 import Physics from '../traits/Physics';
+import Sound from '../sounds/Sound';
 
 /** Goomba Behavior class. */
 class Behavior extends Trait {
@@ -23,13 +24,16 @@ class Behavior extends Trait {
     if (them.stomper) {
       if (them.vel.y > us.vel.y) {
         us.killable.kill();
+        us.squash();
         us.pendulumMove.speed = 0;
       } else {
         them.killable.kill();
       }
     } else {
-      us.pendulumMove.speed *= -1;
-      them.pendulumMove.speed *= -1;
+      // console.log("BEFORE", us.pendulumMove.speed);
+      // us.pendulumMove.speed *= -1;
+      // // them.pendulumMove.speed *= -1;
+      // console.log("AFTER", us.pendulumMove.speed);
     }
   }
 }
@@ -70,7 +74,7 @@ function createGoombaFactory(sprite) {
   };
 
   return function createMario() {
-    const goomba = new Entity();
+    const goomba = new Entity(sprite.type);
     goomba.size.set(16, 16);
 
     goomba.addTrait(new Physics());
@@ -78,6 +82,14 @@ function createGoombaFactory(sprite) {
     goomba.addTrait(new PendulumMove());
     goomba.addTrait(new Behavior());
     goomba.addTrait(new Killable());
+
+    goomba.fx = {
+      squash: new Sound('../../sounds/stomp.wav'),
+    };
+
+    goomba.squash = () => {
+      goomba.fx.squash.sound.play();
+    };
     goomba.draw = drawGoomba;
 
     return goomba;
