@@ -73,6 +73,14 @@
     {
       "name": "cloud-2-3",
       "index": [2, 21]
+    },
+    {
+      "name": "flag-top",
+      "index": [16, 8]
+    },
+    {
+      "name": "flag-pole",
+      "index": [16, 9]
     }
   ],
   "animations": [
