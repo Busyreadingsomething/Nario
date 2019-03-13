@@ -14,6 +14,7 @@ export default class PlayerController extends Trait {
     this.time = time;
     this.score = 0;
     this.lives = 3;
+    this.coins = 19;
   }
 
   /**
@@ -26,6 +27,18 @@ export default class PlayerController extends Trait {
     this.player.stomper.onStomp = () => {
       this.score += 100;
     };
+  }
+
+  /**
+   * Update the coin count.
+   * @param {Number} coins
+   * @param {Number} score
+   */
+  updateCoinCount(coins, score) {
+    this.queue(() => {
+      this.coins = coins;
+      this.score = score;
+    });
   }
 
   /**
