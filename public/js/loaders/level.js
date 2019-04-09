@@ -3,7 +3,7 @@ import Level from '../Level';
 import {createSpriteLayer} from '../layers/sprites';
 import {createBackgroundLayer} from '../layers/background';
 import {loadJSON, loadSpriteSheet} from '../loaders';
-import Sound from '../sounds/Sound';
+import {SoundBoard} from '../sounds/Sound';
 
 /**
  * Sets up the collision for the level.
@@ -63,12 +63,12 @@ function setupEntities(levelSpec, level, entityFactory) {
  */
 function setupBackgroundMusic({backgroundMusic}, level) {
   if (backgroundMusic) {
-    level.backgroundMusic = new Sound(`../../sounds/${backgroundMusic}`, true);
-    level.warningSound = new Sound('../../sounds/warning.wav');
-    level.warningSound.sound.onended = () => {
-      level.backgroundMusic.sound.currentTime = 0;
-      level.backgroundMusic.sound.playbackRate = 1.4;
-      level.backgroundMusic.play();
+    level.backgroundMusic = backgroundMusic;
+    SoundBoard.fx.get('warning').sound.onended = function() {
+      console.log(this);
+      SoundBoard.fx.get(backgroundMusic).sound.currentTime = 0;
+      SoundBoard.fx.get(backgroundMusic).sound.playbackRate = 1.4;
+      SoundBoard.fx.get(backgroundMusic).play();
     };
   }
 }
