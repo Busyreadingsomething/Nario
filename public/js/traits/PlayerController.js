@@ -1,5 +1,6 @@
 import {Trait} from '../Entity';
 import {Vec2} from '../math';
+import {SoundBoard} from '../sounds/Sound';
 
 /** Killable class for entities. */
 export default class PlayerController extends Trait {
@@ -12,9 +13,10 @@ export default class PlayerController extends Trait {
     this.checkpoint = new Vec2(0, 0);
     this.player = null;
     this.time = time;
+    this.hurry = false;
     this.score = 0;
     this.lives = 3;
-    this.coins = 19;
+    this.coins = 97;
   }
 
   /**
@@ -36,7 +38,13 @@ export default class PlayerController extends Trait {
    */
   updateCoinCount(coins, score) {
     this.queue(() => {
-      this.coins = coins;
+      if (coins === 100) {
+        this.coins = 0;
+        this.lives += 1;
+        SoundBoard.fx.get('1-up').play();
+      } else {
+        this.coins = coins;
+      }
       this.score = score;
     });
   }
@@ -55,15 +63,17 @@ export default class PlayerController extends Trait {
     } else {
       this.time -= deltaTime * 2;
     }
-    if (Math.ceil(this.time) === 100) {
-      level.backgroundMusic.pause();
-      level.warningSound.play();
+    if (Math.ceil(this.time) === 100 && !this.hurry) {
+      this.hurry = true;
+      SoundBoard[level.backgroundMusic].pause();
+      SoundBoard.warning.play();
     }
     if (Math.ceil(this.time) === 0) {
       this.player.killable.kill();
-      level.backgroundMusic.sound.currentTime = 0;
-      level.backgroundMusic.sound.playbackRate = 1;
+      SoundBoard[level.backgroundMusic].sound.currentTime = 0;
+      SoundBoard[level.backgroundMusic].sound.playbackRate = 1;
       this.time = 300;
+      this.lives -= 1;
     }
   }
 }
