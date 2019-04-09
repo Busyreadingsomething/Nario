@@ -9,6 +9,7 @@ import {setUpKeyBoard} from './input';
 import {createCollisionLayer} from './layers/collision';
 import {createDashboardLayer} from './layers/dashboard';
 import {createPreScreen} from './layers/preScreen';
+import {SoundBoard} from './sounds/Sound';
 
 /**
  * Creates player environment.
@@ -73,7 +74,7 @@ async function main(canvas) {
   };
 
   createPreScreen(context, font, dashboard, playerEnv, () => {
-    level.backgroundMusic.play()
+    SoundBoard.fx.get(level.backgroundMusic).play()
         .then(() => timer.start())
         .catch((e) => console.log(e));
   });
