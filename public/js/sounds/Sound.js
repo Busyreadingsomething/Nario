@@ -1,3 +1,80 @@
+import {Trait} from '../Entity';
+
+const ROOT = '../../sounds/';
+const SOUND_LIST = [
+  '1-up.wav',
+  'breakblock.wav',
+  'bump.wav',
+  'coin.wav',
+  'flagpole.wav',
+  'jumpSmall.wav',
+  'jumpSuper.wav',
+  'kick.wav',
+  'overworld.mp3',
+  'pipe.wav',
+  'powerup.wav',
+  'powerupAppears.wav',
+  'stomp.wav',
+  'vine.wav',
+  'warning.wav',
+];
+
+/** Sound Board design. */
+class SoundFxBoard extends Trait {
+  /**
+   * Sources of the sounds.
+   * @param {Map<String, Sound>} builder
+   */
+  constructor(builder) {
+    super('soundBoard');
+    this.fx = builder.fx;
+  }
+
+  /** Gets the Builder. */
+  static get Builder() {
+    /** Builder Class */
+    class Builder {
+      /** Creates the Builder. */
+      constructor() {}
+
+      /**
+       * @param {Array<String>} sources
+       * @return {TestingBoard.Builder}
+       */
+      withFx(sources) {
+        const fx = Builder.createFx(sources);
+        this.fx = fx;
+        return this;
+      }
+
+      /**
+       * @param {Array<String>} sources
+       * @return {Map<String, Audio>}
+       */
+      static createFx(sources) {
+        const soundBoard = new Map();
+
+        sources.forEach((sound) => {
+          let loop = false;
+          if (sources.includes('overworld')) {
+            loop = true;
+          }
+          const fx = new Sound(ROOT + sound, loop);
+          const [key] = sound.split('.');
+          soundBoard.set(key, fx);
+        });
+
+        return soundBoard;
+      }
+      /** @return {SoundFxBoard} */
+      build() {
+        return new SoundFxBoard(this);
+      }
+    }
+    return Builder;
+  }
+}
+
 /** Sound class to create the sound effects. */
 export default class Sound {
   /**
@@ -18,6 +95,7 @@ export default class Sound {
    * @return {Promise}
    */
   play() {
+    this.sound.currentTime = 0;
     return this.sound.play();
   }
 
@@ -29,3 +107,5 @@ export default class Sound {
     return this.sound.pause();
   }
 }
+
+export const SoundBoard = new SoundFxBoard.Builder().withFx(SOUND_LIST).build();
