@@ -9,7 +9,7 @@ export default class Level {
    *
    * @param {JSON} levelSpec
    */
-  constructor({gravity, timer}) {
+  constructor({gravity, timer, backgroundMusic}) {
     this.gravity = gravity;
     this.timer = timer;
     this.totalTime = 0;
@@ -17,8 +17,7 @@ export default class Level {
     this.entities = new Set();
     this.entityCollider = new EntityCollider(this.entities);
     this.tileCollider = null;
-    this.backgroundMusic = null;
-    this.warningSound = null;
+    this.backgroundMusic = backgroundMusic;
   }
 
   /**
