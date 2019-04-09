@@ -1,7 +1,7 @@
 {
     "spriteSheet": "overworld",
-    "backgroundMusic": "overworld.mp3",
-    "timer": 300, 
+    "backgroundMusic": "overworld",
+    "timer": 300,
     "gravity": 1500,
     "layers": [
         {
