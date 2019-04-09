@@ -4,7 +4,7 @@ import PendulumMove from '../traits/PendulumMove';
 import {loadSpriteSheet} from '../loaders';
 import Solid from '../traits/Solid';
 import Physics from '../traits/Physics';
-import Sound from '../sounds/Sound';
+import {SoundBoard} from '../sounds/Sound';
 
 /** Goomba Behavior class. */
 class Behavior extends Trait {
@@ -83,12 +83,8 @@ function createGoombaFactory(sprite) {
     goomba.addTrait(new Behavior());
     goomba.addTrait(new Killable());
 
-    goomba.fx = {
-      squash: new Sound('../../sounds/stomp.wav'),
-    };
-
     goomba.squash = () => {
-      goomba.fx.squash.sound.play();
+      SoundBoard.fx.get('stomp').play();
     };
     goomba.draw = drawGoomba;
 

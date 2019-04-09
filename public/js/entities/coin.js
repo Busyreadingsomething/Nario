@@ -1,7 +1,7 @@
 import Entity, {Trait} from '../Entity';
 import Killable from '../traits/Killable';
 import {loadSpriteSheet} from '../loaders';
-import Sound from '../sounds/Sound';
+import {SoundBoard} from '../sounds/Sound';
 
 /** Goomba Behavior class. */
 class Behavior extends Trait {
@@ -16,7 +16,6 @@ class Behavior extends Trait {
    * @param {Entity} them
    */
   collides(us, them) {
-    debugger;
     if (!them.stomper) return;
     if (us.killable.dead) {
       us.grabCoin();
@@ -71,13 +70,9 @@ function createCoinFactory(sprite) {
     coin.addTrait(new Behavior());
     coin.addTrait(new Killable(0));
 
-    coin.fx = {
-      ping: new Sound('../../sounds/coin.wav'),
-    };
-
     /** Plays coin ping. */
     coin.grabCoin = () => {
-      coin.fx.ping.sound.play();
+      SoundBoard.fx.get('coin').play();
     };
     coin.draw = drawCoin;
 

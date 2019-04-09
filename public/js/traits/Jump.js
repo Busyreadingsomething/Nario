@@ -1,4 +1,5 @@
 import {Trait, Sides} from '../Entity';
+import {SoundBoard} from '../sounds/Sound';
 
 /** Jump class for entities. */
 export default class Jump extends Trait {
@@ -22,6 +23,9 @@ export default class Jump extends Trait {
 
   /** Starts the jump. */
   start() {
+    if (this.ready === 0) {
+      SoundBoard.fx.get('jumpSmall').play();
+    }
     this.requestTime = this.gracePeriod;
   }
 
@@ -37,8 +41,10 @@ export default class Jump extends Trait {
    */
   obstruct(entity, side) {
     if (side === Sides.BOTTOM) {
+      this.jump = false;
       this.ready = 1;
     } else if (side === Sides.TOP) {
+      SoundBoard.fx.get('bump').play();
       this.cancel();
     }
   }
