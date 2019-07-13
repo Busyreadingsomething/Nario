@@ -65,7 +65,6 @@ function setupBackgroundMusic({backgroundMusic}, level) {
   if (backgroundMusic) {
     level.backgroundMusic = backgroundMusic;
     SoundBoard.fx.get('warning').sound.onended = function() {
-      console.log(this);
       SoundBoard.fx.get(backgroundMusic).sound.currentTime = 0;
       SoundBoard.fx.get(backgroundMusic).sound.playbackRate = 1.4;
       SoundBoard.fx.get(backgroundMusic).play();
