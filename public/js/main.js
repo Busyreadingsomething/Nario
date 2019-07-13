@@ -20,7 +20,7 @@ import {SoundBoard} from './sounds/Sound';
 function createPlayerEnv(playerEntity, level) {
   const playerEnv = new Entity();
   const playerControl = new PlayerController(level.timer);
-  playerControl.checkpoint.set(64, 64);
+  playerControl.checkpoint.set(64, 192);
   playerControl.setPlayer(playerEntity);
   playerEnv.addTrait(playerControl);
   return playerEnv;
@@ -47,6 +47,7 @@ async function main(canvas) {
   const playerEnv = createPlayerEnv(mario, level);
   const dashboard = createDashboardLayer(font, playerEnv);
 
+  level.setPlayerEnvironment(playerEnv);
   level.controller = playerEnv.playerController;
   level.entities.add(playerEnv);
 
