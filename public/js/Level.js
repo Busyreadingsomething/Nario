@@ -16,6 +16,7 @@ export default class Level {
     this.comp = new Compositor();
     this.entities = new Set();
     this.entityCollider = new EntityCollider(this.entities);
+    this.environment = null;
     this.tileCollider = null;
     this.backgroundMusic = backgroundMusic;
   }
@@ -26,6 +27,11 @@ export default class Level {
    */
   setCollisionGrid(matrix) {
     this.tileCollider = new TileCollider(matrix);
+  }
+
+  /** @param {Entity} env player environment. */
+  setPlayerEnvironment(env) {
+    this.environment = env;
   }
 
   /**
