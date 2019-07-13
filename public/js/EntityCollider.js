@@ -1,4 +1,3 @@
-
 /** Collider for entities. */
 export default class EntityCollider {
   /**

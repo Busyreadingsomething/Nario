@@ -42,7 +42,6 @@ export function loadCoin() {
  * @return {Function} Creates coin function.
  */
 function createCoinFactory(sprite) {
-  console.log('Sprite', sprite);
   const shineAnim = sprite.animations.get('shine');
 
   /**
