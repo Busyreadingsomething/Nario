@@ -25,6 +25,10 @@
     {
       "name": "jump",
       "rect": [355, 44, 16, 16]
+    },
+    {
+      "name": "dead",
+      "rect": [486, 46, 16, 16]
     }
   ],
   "animations" : [
