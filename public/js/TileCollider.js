@@ -16,6 +16,10 @@ export default class TileCollider {
    * @param {Entity} entity Sprite entity
    */
   checkY(entity) {
+    if (entity.type === 'player' && entity.killable.dead) {
+      return;
+    }
+
     let y;
     if (entity.vel.y > 0) {
       y = entity.bounds.bottom;

@@ -21,8 +21,10 @@ export default class Killable extends Trait {
 
   /** Revives the entity. */
   revive() {
-    this.dead = false;
-    this.deadTime = 0;
+    this.queue(() => {
+      this.dead = false;
+      this.deadTime = 0;
+    });
   }
 
   /**
@@ -33,6 +35,9 @@ export default class Killable extends Trait {
    */
   update(entity, deltaTime, level) {
     if (this.dead) {
+      if (this.deadTime === 0 && entity.type === 'player') {
+        entity.vel.set(0, 50);
+      }
       this.deadTime += deltaTime;
       if (this.deadTime > this.removeAfter) {
         this.queue(() => {

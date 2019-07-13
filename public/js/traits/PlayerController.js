@@ -59,6 +59,7 @@ export default class PlayerController extends Trait {
     if (!level.entities.has(this.player)) {
       this.player.killable.revive();
       this.player.pos.set(this.checkpoint.x, this.checkpoint.y);
+      this.player.vel.set(0, 0);
       level.entities.add(this.player);
     } else {
       this.time -= deltaTime * 2;
